@@ -1,15 +1,16 @@
-var cards = [1,2,3,4,5,6,7,8];
+var cards = [[0,1],[2,3],[4,5],[6,7]];
+var clickCounter = 0;
+var answer = $('.answer');
+var nextCard = $('.nextCard');
+var flashCard = $('.flashCard');
 
-var flashCards = $(".flashCards");
+flashCard.html(cards[0][0]);
 
-var click = 0;
+answer.on("click", function() {
+  flashCard.html(cards[clickCounter][1]);
+});
 
-flashCards.on("click", function(evt) {
-  console.log(click);
-  for(var i = 0; i < cards.length; i++){
-    flashCards.html(cards[click]);
-  }
-  click += 1;
-
-
-})
+nextCard.on("click", function() {
+  clickCounter += 1;
+  flashCard.html(cards[clickCounter][0]);
+});
