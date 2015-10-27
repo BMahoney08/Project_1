@@ -1,13 +1,21 @@
 //Global variables
 var cards = [];
-var allCards = [[0,1],[2,3],[4,5],[6,7]];
+var allCards = [["CLI","Command Line Interface"],
+["Variable","A memory location/unit named or labeled so it can be used in a program"],
+["Loops","Instruction sequences repeated based on a condition"],
+["OOP","Object Oriented Programming"],
+["GUI", "Graphical User Interface"],
+["Boolean","Type of data that consists of two values - true and false"],
+["Call Back","A function passed as an argument, that will execute the code when called upon"]
+];
 var clickCounter = 0;
 var answer = $('.answer');
 var correct = $('.correct');
 var incorrect = $('.incorrect');
 var flashCard = $('.flashCard');
-var incorrectDeck = $('.incorrectDeck');
 var incorrectCards = [];
+var snd = new Audio("Sounds/paper_tearing.wav"); // buffers automatically when created
+
 
 //Sets the deck to the full deck.
 cards = allCards;
@@ -66,11 +74,17 @@ var checkDeckShuffle = function() {
 
 //Shows the user the back of the flashcard.
 answer.on("click", function() {
+  snd.play();
+  flashCard.css("transform", "rotate(-5deg)");
+  flashCard.css("background","url(Images/flashcard.jpg)");
   flashCard.html(cards[clickCounter][1]);
 });
 
 //User selects if they got the correct answer to the flashcard.
 correct.on("click", function() {
+  snd.play();
+  flashCard.css("transform", "rotate(5deg)");
+  flashCard.css("background","#F8F8F8");
   clickCounter += 1;
   checkDeckShuffle();
   flashCard.html(cards[clickCounter][0]);
@@ -78,6 +92,9 @@ correct.on("click", function() {
 
 //User selects if they did not get the correct answer to the flashcard.
 incorrect.on("click", function() {
+  snd.play();
+  flashCard.css("transform", "rotate(5deg)");
+  flashCard.css("background","#F8F8F8")
   incorrectCards.push(cards[clickCounter]);
   clickCounter += 1;
   checkDeckShuffle();
