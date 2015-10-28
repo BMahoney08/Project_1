@@ -167,3 +167,5 @@ $('body').on("keyup", function ( evt ) {
   correctAnswer();
   };
 });
+
+var statsLog = document.cookie = "correctStats"
