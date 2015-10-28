@@ -34,35 +34,33 @@ var correctStats = $(".correctStats");
 var incorrectStats = $(".incorrectStats");
 var snd = new Audio("Sounds/paper_tearing.wav");
 
+//Sets the deck to the full deck.
+cards = allCards;
+
 var correctStatTracker = 0;
 
 //function to track correct answer stats
-var correctAnswer = function() {
+var correctAnswerTracked = function() {
   correctStatTracker = correctStatTracker + 1;
   correctStats.text("Correct:  " + correctStatTracker);
 };
 
 var incorrectStatTracker = 0;
-var incorrectAnswer = function() {
+
+//function to track incorrect stats
+var incorrectAnswerTracked = function() {
   incorrectStatTracker = incorrectStatTracker + 1;
   incorrectStats.text("Incorrect:  " + incorrectStatTracker);
 };
 
-
-
-
-
-//Sets the deck to the full deck.
-cards = allCards;
-
-//Function to randomize the order of the cards.
+//Function to randomize the order of the flashcards.
 var shuffle = function(array) {
   var m = array.length;
   var t;
   var i;
   i = Math.floor(Math.random() * m--);
-  t = array[m]
-  array[m] = array[i]
+  t = array[m];
+  array[m] = array[i];
   array[i] = t;
 }
 
@@ -107,27 +105,31 @@ var checkDeckShuffle = function() {
   }
 }
 
-//Shows the user the back of the flashcard.
-answer.on("click", function() {
+
+//Function to reveal the back of the flashcard
+var revealAnswer = function () {
   snd.play();
   flashCard.css("transform", "rotate(-5deg)");
   flashCard.css("background","url(Images/flashcard.jpg)");
   flashCard.html(cards[clickCounter][1]);
-});
+};
 
-//User selects if they got the correct answer to the flashcard.
-correct.on("click", function() {
+//Adding event listener to run the reveal answer function if the user clicks on the reveal answer button.
+answer.on("click", revealAnswer);
+
+//Function to be run if the user has gotten the correct answer to the flashcard.
+var correctAnswer = function() {
   snd.play();
   flashCard.css("transform", "rotate(5deg)");
   flashCard.css("background","#F8F8F8");
   clickCounter += 1;
   checkDeckShuffle();
   flashCard.html(cards[clickCounter][0]);
-  correctAnswer();
-});
+  correctAnswerTracked();
+};
 
-//User selects if they did not get the correct answer to the flashcard.
-incorrect.on("click", function() {
+//Function to be run if the user has gotten the incorrect answer to the flashcard.
+var incorrectAnswer = function() {
   snd.play();
   flashCard.css("transform", "rotate(5deg)");
   flashCard.css("background","#F8F8F8")
@@ -135,31 +137,26 @@ incorrect.on("click", function() {
   clickCounter += 1;
   checkDeckShuffle();
   flashCard.html(cards[clickCounter][0]);
-  incorrectStatTracker += 1;
-  incorrectAnswer();
-});
+  incorrectAnswerTracked();
+}
+
+//Adding event listener to run the correct answer function if the user clicks the correct button.
+correct.on("click", correctAnswer);
+
+//Adding event listener to run the correct answer function if the user clicks the incorrect button.
+incorrect.on("click", incorrectAnswer);
 
 //Shift functionality to reveal back of the flashcard
 $('body').on('keyup', function ( evt ) {
   evt.preventDefault();
   if(evt.keyCode === 16) {
-    snd.play();
-    flashCard.css("transform", "rotate(-5deg)");
-    flashCard.css("background","url(Images/flashcard.jpg)");
-    flashCard.html(cards[clickCounter][1]);
+    revealAnswer();
   };
 });
 
-//Left arrow functionality for "incorrect" flashcards 37
+//Left arrow functionality for "incorrect" flashcards
 $('body').on('keyup', function ( evt ) {
   if(evt.keyCode === 37) {
-    snd.play();
-    flashCard.css("transform", "rotate(5deg)");
-    flashCard.css("background","#F8F8F8")
-    incorrectCards.push(cards[clickCounter]);
-    clickCounter += 1;
-    checkDeckShuffle();
-    flashCard.html(cards[clickCounter][0]);
     incorrectAnswer();
   };
 });
@@ -167,14 +164,6 @@ $('body').on('keyup', function ( evt ) {
 //Right arrow functionality for "correct" flashcards
 $('body').on("keyup", function ( evt ) {
   if(evt.keyCode === 39) {
-    snd.play();
-    flashCard.css("transform", "rotate(5deg)");
-    flashCard.css("background","#F8F8F8");
-    clickCounter += 1;
-    checkDeckShuffle();
-    flashCard.html(cards[clickCounter][0]);
-    correctAnswer();
+  correctAnswer();
   };
 });
-
-//tracks the stats
