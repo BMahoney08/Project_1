@@ -33,6 +33,15 @@ var incorrectCards = [];
 var correctStats = $(".correctStats");
 var incorrectStats = $(".incorrectStats");
 var snd = new Audio("Sounds/paper_tearing.wav");
+var currentStreak = 0;
+var maxStreak = 0;
+
+var maxStreakCheck = function() {
+  if(currentStreak > maxStreak) {
+    maxStreak = currentStreak;
+    $(".maxStreak").text("Max Streak: " + currentStreak)
+  }
+}
 
 //Sets the deck to the full deck.
 cards = allCards;
@@ -126,6 +135,9 @@ var correctAnswer = function() {
   checkDeckShuffle();
   flashCard.html(cards[clickCounter][0]);
   correctAnswerTracked();
+  currentStreak += 1;
+  $(".currentStreak").text("Current Streak: " + currentStreak);
+  maxStreakCheck();
 };
 
 //Function to be run if the user has gotten the incorrect answer to the flashcard.
@@ -138,6 +150,8 @@ var incorrectAnswer = function() {
   checkDeckShuffle();
   flashCard.html(cards[clickCounter][0]);
   incorrectAnswerTracked();
+  currentStreak = 0;
+  $(".currentStreak").text("Current Streak: " + currentStreak);
 }
 
 //Adding event listener to run the correct answer function if the user clicks the correct button.

@@ -49,6 +49,11 @@ h1 {
   box-shadow: 3px 3px 3px #49494A;
 }
 
+/*.answer: hover {
+  box-shadow: 6px 6px 6px #49494A;
+  color: red;
+}*/
+
 .incorrect {
   float: left;
   margin-left: 200px;
@@ -96,7 +101,6 @@ p {
   border: 2px solid white;
   border-radius: 5px;
   width: 200px;
-  height: 100px;
   position: absolute;
   left: 80%;
   top: 50%;
@@ -116,6 +120,6 @@ h5 {
   margin: 0px;
 }
 
-.correctStats {
+.stats p {
   margin-bottom: 0px;
 }
