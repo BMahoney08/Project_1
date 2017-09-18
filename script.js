@@ -1,4 +1,6 @@
 //Global variables
+
+// Even if your <script> tags are at the end of your body, it's good practice to use $(document).ready
 var cards = [];
 var allCards = [["CLI","Command Line Interface"],
 ["popd","pop directory"],
@@ -24,6 +26,7 @@ var allCards = [["CLI","Command Line Interface"],
 ["sudo", "Danger! become a super user"]
 ];
 var clickCounter = 0;
+// Niiiiice. +10 for saving your jQuery elements to variables! So memory-efficient!
 var answer = $('.answer');
 var correctStats = $('.correctStats');
 var incorrect = $('.incorrect');
@@ -33,6 +36,7 @@ var incorrectCards = [];
 var correctStats = $(".correctStats");
 var incorrectStats = $(".incorrectStats");
 var snd = new Audio("Sounds/paper_tearing.wav");
+// Cool! I like that it looks like you had some fun with this.
 var currentStreak = 0;
 var maxStreak = 0;
 
@@ -57,6 +61,7 @@ var correctAnswerTracked = function() {
 var incorrectStatTracker = 0;
 
 //function to track incorrect stats
+// I'd recommend using the function incorrectAnswerTracked() syntax and putting all your functions together at the end of your file, using Javascript's hoisting. Either way, props on being consistent.
 var incorrectAnswerTracked = function() {
   incorrectStatTracker = incorrectStatTracker + 1;
   incorrectStats.text("Incorrect:  " + incorrectStatTracker);
@@ -90,6 +95,7 @@ var checkDeckShuffle = function() {
   if(clickCounter >= cards.length) {
     //Selects which deck to use (Incorrect/All) based on user input.
     var whichDeck = prompt("To cycle through the incorrect cards please enter 'I'. To cycle through the entire deck gain, please enter 'A'.");
+    // Save some characters with prompt("").toLowerCase(), and then just if(whichDeck == "i")
     if(whichDeck == "I" || whichDeck == "i") {
       //Verifies there are cards in the incorrect deck. If so, the deck of incorrect cards is shuffled and prepared for the user.
       if(incorrectCards.length > 0) {
@@ -120,6 +126,14 @@ var revealAnswer = function () {
   snd.play();
   flashCard.css("transform", "rotate(-5deg)");
   flashCard.css("background","url(Images/flashcard.jpg)");
+  /*
+You can lump CSS changes together in jQuery:
+
+flashCard.css({
+  "transform": "rotate(-5deg)",
+  "background": "url()"
+})
+  */
   flashCard.html(cards[clickCounter][1]);
 };
 
@@ -175,6 +189,19 @@ $('body').on('keyup', function ( evt ) {
   };
 });
 
+/* These listeners could be condensed into one:
+$('body').on("keyup", function(e){
+  switch(e.keyCode){
+    case 16:
+      break;
+    case 37:
+      break;
+    case 39:
+      break;
+  }
+})
+*/
+
 //Right arrow functionality for "correct" flashcards
 $('body').on("keyup", function ( evt ) {
   if(evt.keyCode === 39) {
@@ -183,3 +210,4 @@ $('body').on("keyup", function ( evt ) {
 });
 
 var statsLog = document.cookie = "correctStats"
+// Nice
